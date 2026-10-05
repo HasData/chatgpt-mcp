@@ -1,0 +1,34 @@
+---
+description: How to ask ChatGPT a question and read its answer and sources through the HasData MCP server
+alwaysApply: false
+---
+
+# ChatGPT through HasData
+
+One tool, `hasdata_chatgpt_chat_getChatgptAnswer`, and it takes `prompt`. Nothing else is required. The call is anonymous, so no OpenAI account is involved and there is no conversation to resume.
+
+## Everything is under `conversation`
+
+The answer is `conversation.answer`, as markdown rather than plain text. Alongside it sit `title`, the name ChatGPT generated for the thread, `model`, `usedWebSearch`, `finishReason` and `complete`.
+
+Check `complete` before treating the answer as whole. A truncated answer still comes back as a successful call, and `finishReason` says why it stopped.
+
+## Sources are uneven
+
+`conversation.sources` is where the citations live, and the fields are not uniform. In a measured answer with twenty sources, all twenty carried `title`, `url` and `domain`, eleven carried `publishedDate` and five carried `snippet`. Read each field defensively instead of taking the shape of the first element as the shape of the rest.
+
+`usedWebSearch` decides whether there are sources at all. When ChatGPT answers from the model alone the flag is false and the array is empty or missing, which is ordinary rather than a failure. A question about a settled fact usually takes that path, so ask about something current when citations are the point of the call.
+
+## The prompt sets the language
+
+The answer comes back in the language of the prompt. Ask in German and the reply is German. Asking in English for an answer in another language also works, but writing the prompt in the target language is the reliable route.
+
+## No memory between calls
+
+Each request is a fresh conversation. `conversationId` names the thread that answered, not one that can be continued, so a follow-up has to restate its own context. A prompt that says "as I mentioned earlier" is talking to nobody.
+
+## Dates need a timezone
+
+`timezone` takes an IANA name such as `Europe/Berlin` and sets what ChatGPT treats as today. Without it, words like "today" and "this week" resolve to wherever the request happens to leave from, which is rarely what the user meant.
+
+Each successful call spends credits from the connected account, and the length of the answer does not change the price.

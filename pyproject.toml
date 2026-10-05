@@ -1,0 +1,24 @@
+[project]
+name = "hasdata-chatgpt-mcp"
+version = "1.0.0"
+description = "MCP server for the ChatGPT Scraper API through HasData's hosted API. No OpenAI account."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["mcp", "chatgpt", "chatgpt-api", "llm", "ai-search", "model-context-protocol", "hasdata"]
+# mcp is pinned below 2 because mcp-proxy 0.12.0 imports request_ctx, removed in the mcp 2.x SDK.
+dependencies = ["mcp-proxy>=0.12.0", "mcp>=1.28.1,<2"]
+
+[project.urls]
+Homepage = "https://hasdata.com/apis/chatgpt-api"
+Repository = "https://github.com/HasData/chatgpt-mcp"
+
+[project.scripts]
+hasdata-chatgpt-mcp = "hasdata_chatgpt_mcp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hasdata_chatgpt_mcp"]

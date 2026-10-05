@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "hasdata-chatgpt-mcp",
+  "version": "1.0.0",
+  "description": "ChatGPT MCP server for Cursor. Send a prompt to ChatGPT anonymously and get the answer as markdown together with the web sources it consulted, as structured JSON. No OpenAI account or API key. Remote MCP server hosted by HasData, connects over streamable HTTP with your HasData API key.",
+  "author": {
+    "name": "HasData",
+    "url": "https://hasdata.com"
+  },
+  "homepage": "https://hasdata.com/apis/chatgpt-api",
+  "repository": "https://github.com/HasData/chatgpt-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "chatgpt",
+    "chatgpt-mcp",
+    "chatgpt-api",
+    "llm",
+    "ai-search",
+    "model-context-protocol",
+    "hasdata",
+    "scraper"
+  ]
+}
