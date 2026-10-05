@@ -49,8 +49,20 @@ jobs:
           npm -v
       - name: Set version from the tag
         run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version --allow-same-version
+      # The first version of a brand new package has to go up by hand, because npm only
+      # offers the trusted-publisher setting on a package that already exists. After that
+      # manual publish the tag workflow would fail forever on "cannot publish over
+      # previously published version", so skip a version that is already on the registry
+      # instead of failing the run.
       - name: Publish to npm (OIDC, no token)
-        run: npm publish --access public
+        run: |
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already on npm, nothing to publish"
+            exit 0
+          fi
+          npm publish --access public
 
   pypi:
     runs-on: ubuntu-latest
